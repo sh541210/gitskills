@@ -2,10 +2,10 @@ stages:
 - name: maven3.6
   steps:
   - runScriptConfig:
-      image: prokop7/maven3.6.1-jdk8
+      image: maven:3.6.0-jdk-8-alpine
       shellScript: |-
         cd  sign-core-system/
-        clean compile install -Dmaven.test.skip=true
+        mvn clean compile install -Dmaven.test.skip=true
     env:
       Root POM: sign-core-system/pom.xml
   when:

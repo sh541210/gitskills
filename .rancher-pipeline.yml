@@ -1,2 +1,8 @@
+stages:
+- name: maven
+  steps:
+  - runScriptConfig:
+      image: java:8
+      shellScript: ifconfig
 timeout: 60
 notification: {}

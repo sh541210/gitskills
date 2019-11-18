@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.SignSysFilePrintMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysFilePrint">
+        <id column="id" property="id" />
+        <result column="print_user" property="printUser" />
+        <result column="user_enterprise" property="userEnterprise" />
+        <result column="user_type" property="userType" />
+        <result column="user_channel" property="userChannel" />
+        <result column="file_code" property="fileCode" />
+        <result column="gmt_create" property="gmtCreate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, print_user, user_enterprise, user_type, user_channel, file_code, gmt_create
+    </sql>
+
+    <select id="getPageList" resultMap="DetailResultMap">
+        select * from sign_sys_file_print s where 1=1
+        <if test="signSysFilePrintDTO.fileCode != null and signSysFilePrintDTO.fileCode != '' " >
+            and  s.file_code = '${signSysFilePrintDTO.fileCode}'
+        </if>
+        order by gmt_create desc
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DetailResultMap" type="com.iyin.sign.system.dto.req.SignSysFilePrintDTO">
+        <id column="id" property="id" />
+        <result column="print_user" property="printUser" />
+        <result column="user_enterprise" property="userEnterprise" />
+        <result column="user_type" property="userType" />
+        <result column="user_channel" property="userChannel" />
+        <result column="gmt_create" property="gmtCreate" />
+    </resultMap>
+
+</mapper>

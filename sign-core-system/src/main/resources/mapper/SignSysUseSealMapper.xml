@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.SignSysUseSealMapper">
+  <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysUseSeal">
+    <id column="apply_id" jdbcType="VARCHAR" property="applyId" />
+    <result column="apply_user" jdbcType="VARCHAR" property="applyUser" />
+    <result column="file_code" jdbcType="VARCHAR" property="fileCode" />
+    <result column="seal_id" jdbcType="VARCHAR" property="sealId" />
+    <result column="apply_count" jdbcType="INTEGER" property="applyCount" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="source" jdbcType="TINYINT" property="source" />
+    <result column="business_id" jdbcType="VARCHAR" property="businessId" />
+    <result column="file_number" jdbcType="INTEGER" property="fileNumber" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+    <result column="apply_pdf" jdbcType="VARCHAR" property="applyPdf" />
+    <result column="img_list" jdbcType="VARCHAR" property="imgList" />
+    <result column="seal_name" jdbcType="VARCHAR" property="sealName" />
+    <result column="apply_cause" jdbcType="VARCHAR" property="applyCause" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="creat_user" jdbcType="VARCHAR" property="creatUser" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+  </resultMap>
+
+  <resultMap id="DetailResultMap" type="com.iyin.sign.system.dto.req.SignSysUseSealDTO">
+    <id column="apply_id" jdbcType="VARCHAR" property="applyId" />
+    <result column="file_code" jdbcType="VARCHAR" property="fileCode" />
+    <result column="apply_count" jdbcType="INTEGER" property="applyCount" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="source" jdbcType="TINYINT" property="source" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+    <result column="seal_name" jdbcType="VARCHAR" property="sealName" />
+    <result column="apply_cause" jdbcType="VARCHAR" property="applyCause" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="creat_user" jdbcType="VARCHAR" property="creatUser" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="user_nick_name" property="createUserName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="getPageList" resultMap="DetailResultMap">
+    SELECT s.*,u.`user_nick_name`,e.chinese_name FROM sign_sys_use_seal s
+    LEFT JOIN sign_sys_user_info u ON s.`creat_user`=u.`id`
+    LEFT JOIN sign_sys_enterprise_info e ON u.`enterprise_or_personal_id`=e.`id`
+    WHERE 1=1 AND s.is_deleted = 0
+    <if test="signSysUseSealDTO.applyCause != null and signSysUseSealDTO.applyCause != '' " >
+      and  s.apply_cause like '%${signSysUseSealDTO.applyCause}%'
+    </if>
+    <if test="signSysUseSealDTO.sealId != null and signSysUseSealDTO.sealId != '' " >
+      and  s.seal_id = #{signSysUseSealDTO.sealId}
+    </if>
+    <if test="signSysUseSealDTO.creatUser != null and signSysUseSealDTO.creatUser != '' " >
+      and  s.creat_user = #{signSysUseSealDTO.creatUser}
+    </if>
+    order by gmt_create desc
+  </select>
+
+</mapper>

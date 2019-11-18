@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.SignSysUserInfoMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysUserInfo">
+        <id column="id" property="id" />
+        <result column="login_type" property="loginType" />
+        <result column="user_name" property="userName" />
+        <result column="phone" property="phone" />
+        <result column="user_nick_name" property="userNickName" />
+        <result column="password" property="password" />
+        <result column="invalid_auth_times" property="invalidAuthTimes" />
+        <result column="first_create" property="firstCreate" />
+        <result column="user_type" property="userType" />
+        <result column="enterprise_or_personal_id" property="enterpriseOrPersonalId" />
+        <result column="node_id" property="nodeId" />
+        <result column="is_locked" property="isLocked" />
+        <result column="is_forbid" property="isForbid" />
+        <result column="remark" property="remark" />
+        <result column="source" property="source" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="other_id" property="otherId" />
+    </resultMap>
+
+    <resultMap id="UserDetailRespVO" type="com.iyin.sign.system.vo.resp.UserDetailRespVO">
+        <id column="id" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="user_nick_name" property="userNickName" />
+        <result column="is_forbid" property="isForbid" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="other_id" property="otherId" />
+    </resultMap>
+
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, login_type, user_name, user_nick_name, password,invalid_auth_times,first_create,user_type,enterprise_or_personal_id,node_id,
+        is_locked,is_forbid,remark,source,is_deleted,gmt_create,gmt_modified, other_id
+    </sql>
+
+    <select id="pageListUserInfoByNodeId" resultMap="UserDetailRespVO">
+        select <include refid="Base_Column_List"/> from sign_sys_user_info
+        <where>
+            node_id = #{reqVO.nodeId}
+            <if test="null != reqVO.userName and ''!=reqVO.userName ">
+                and (user_name like concat('%',#{reqVO.userName},'%') or user_nick_name like concat('%',#{reqVO.userName},'%'))
+            </if>
+            <if test="null != reqVO.userNickName and ''!=reqVO.userNickName">
+                and user_nick_name like concat('%',#{reqVO.userNickName},'%')
+            </if>
+            <if test="null != reqVO.isForbid and ''!=reqVO.isForbid">
+                and is_forbid = #{reqVO.isForbid}
+            </if>
+            and is_deleted = 0
+        </where>
+        order by gmt_create desc
+    </select>
+
+    <!--查询所选节点下的用户列表-->
+    <select id="pageListUserInfoByNodeId2" resultType="com.iyin.sign.system.vo.resp.UserDetailRespVO">
+        select <include refid="Base_Column_List"/> from sign_sys_user_info
+        <where>
+            node_id = #{reqVO.nodeId}
+            <if test="null != reqVO.userName and ''!=reqVO.userName ">
+                and user_name like concat('%',#{reqVO.userName},'%')
+            </if>
+            <if test="null != reqVO.userNickName and ''!=reqVO.userNickName">
+                and (user_nick_name like concat('%',#{reqVO.userNickName},'%') or user_name like concat('%',#{reqVO.userNickName},'%'))
+            </if>
+            <if test="null != reqVO.isForbid and ''!=reqVO.isForbid">
+                and is_forbid = #{reqVO.isForbid}
+            </if>
+            and is_deleted = 0
+        </where>
+        order by gmt_create desc
+    </select>
+</mapper>

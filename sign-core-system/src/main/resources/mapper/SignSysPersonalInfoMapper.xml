@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.SignSysPersonalInfoMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysPersonalInfo">
+        <id column="id" property="id"/>
+        <result column="personal_name" jdbcType="VARCHAR" property="personalName"/>
+        <result column="personal_phone" jdbcType="CHAR" property="personalPhone"/>
+        <result column="personal_logo_path" jdbcType="VARCHAR" property="personalLogoPath"/>
+        <result column="personal_email" jdbcType="VARCHAR" property="personalEmail"/>
+        <result column="personal_certificate_type" jdbcType="CHAR" property="personalCertificateType"/>
+        <result column="personal_certificate_no" jdbcType="VARCHAR" property="personalCertificateNo"/>
+        <result column="personal_address" jdbcType="VARCHAR" property="personalAddress"/>
+        <result column="personal_contact_address" jdbcType="VARCHAR" property="personalContactAddress"/>
+        <result column="nationality" jdbcType="CHAR" property="nationality"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="area" jdbcType="VARCHAR" property="area"/>
+        <result column="area_code" jdbcType="CHAR" property="areaCode"/>
+        <result column="gender" jdbcType="CHAR" property="gender"/>
+        <result column="birth" jdbcType="DATE" property="birth"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="identity_card_front_pic" jdbcType="VARCHAR" property="identityCardFrontPic"/>
+        <result column="identity_card_back_pic" jdbcType="VARCHAR" property="identityCardBackPic"/>
+        <result column="real_name_authentication_flag" jdbcType="BIT" property="realNameAuthenticationFlag"/>
+        <result column="real_name_authentication_time" jdbcType="TIMESTAMP" property="realNameAuthenticationTime"/>
+        <result column="real_name_authentication_from_biz_system_code" jdbcType="VARCHAR"
+                property="realNameAuthenticationFromBizSystemCode"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="certification_levels" jdbcType="VARCHAR" property="certificationLevels"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, personal_name, personal_phone, personal_logo_path, personal_email,
+        personal_certificate_type, personal_certificate_no, personal_address, personal_contact_address,
+        nationality, province, city, area, area_code, gender, birth, remark, is_deleted,
+        identity_card_front_pic, identity_card_back_pic, real_name_authentication_flag, real_name_authentication_time,
+        real_name_authentication_from_biz_system_code, gmt_create, gmt_modified, certification_levels
+    </sql>
+</mapper>

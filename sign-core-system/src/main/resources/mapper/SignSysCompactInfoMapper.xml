@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.ISignSysCompactInfoMapper">
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysCompactInfo">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="template_id" jdbcType="VARCHAR" property="templateId"/>
+        <result column="compact_theme" jdbcType="VARCHAR" property="compactTheme"/>
+        <result column="validity_start_date" jdbcType="TIMESTAMP" property="validityStartDate"/>
+        <result column="validity_end_date" jdbcType="TIMESTAMP" property="validityEndDate"/>
+        <result column="sign_deadline" jdbcType="TIMESTAMP" property="signDeadline"/>
+        <result column="remake" jdbcType="VARCHAR" property="remark"/>
+        <result column="compact_status" jdbcType="CHAR" property="compactStatus"/>
+        <result column="compact_start_date" jdbcType="TIMESTAMP" property="compactStartDate"/>
+        <result column="compact_end_date" jdbcType="TIMESTAMP" property="compactEndDate"/>
+        <result column="compact_refuse_date" jdbcType="TIMESTAMP" property="compactRefuseDate"/>
+        <result column="compact_revocation_date" jdbcType="TIMESTAMP" property="compactRevocationDate"/>
+        <result column="sign_way" jdbcType="CHAR" property="signWay"/>
+        <result column="signatory_way" jdbcType="CHAR" property="signatoryWay"/>
+        <result column="is_site_sign" jdbcType="TINYINT" property="isSiteSign"/>
+        <result column="package_path" jdbcType="VARCHAR" property="packagePath"/>
+        <result column="revocation_remake" jdbcType="VARCHAR" property="revocationRemake"/>
+        <result column="refuse_sign_remake" jdbcType="VARCHAR" property="refuseSignRemake"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="org_id" jdbcType="VARCHAR" property="orgId"/>
+        <result column="folder_id" jdbcType="VARCHAR" property="folderId"/>
+        <result column="type" jdbcType="CHAR" property="type"/>
+        <result column="verification_code" jdbcType="VARCHAR" property="verificationCode"/>
+        <result column="verification_date" jdbcType="VARCHAR" property="verificationDate"/>
+        <result column="qr_code" jdbcType="VARCHAR" property="qrCode"/>
+        <result column="print_num" jdbcType="VARCHAR" property="printNum"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="creat_user" jdbcType="VARCHAR" property="creatUser"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+        <result column="modify_user" jdbcType="VARCHAR" property="modifyUser"/>
+    </resultMap>
+
+    <!--更新签署状态-->
+    <update id="updateStatus">
+        update sign_sys_compact_info set compact_status = #{status},compact_end_date = #{date} where id = #{id}
+    </update>
+    <!--拒签合同-->
+    <update id="rejectContract">
+        update sign_sys_compact_info set compact_status = '03',refuse_sign_remake = #{rejectContent},compact_refuse_date = now() where id = #{contractId}
+    </update>
+    <!--撤销合同-->
+    <update id="revokeContract">
+        update sign_sys_compact_info set compact_status = '02',revocation_remake = #{revokeContent},compact_revocation_date = now() where id = #{contractId}
+    </update>
+    <!--获取文件信息-->
+    <select id="getDetail" resultType="com.iyin.sign.system.vo.file.resp.FileDetailRespDTO">
+      SELECT distinct
+          ssci.id compact_id,
+          ssci.compact_status,
+          sscc.user_id carbon_copy,
+          ssci.user_id sponsor,
+          sscs.signatory_id,
+          sscs.sign_status,
+          s.*
+      FROM
+          sign_sys_compact_info ssci
+          LEFT JOIN sign_sys_compact_file sscf ON ssci.id = sscf.compact_id
+          LEFT JOIN sign_sys_file_resource s ON sscf.file_code = s.file_code
+          LEFT JOIN sign_sys_compact_copy sscc ON ssci.id = sscc.compact_id
+          LEFT JOIN sign_sys_compact_signatory sscs ON ssci.id = sscs.compact_id
+      WHERE
+          ssci.type = '01'
+          AND ssci.is_deleted = 0
+          AND (sscs.signatory_id = #{userId} or ssci.user_id = #{userId} or sscc.user_id = #{userId})
+          AND sscf.file_code = #{fileCode}
+    </select>
+    <!--合同查询-->
+    <select id="queryCompact" parameterType="com.iyin.sign.system.vo.file.req.ContractQueryReqVO"
+            resultType="com.iyin.sign.system.vo.file.resp.ContractQueryRespDTO">
+        select a.compact_id,a.compact_theme,a.sponsor,a.sponsorId,group_concat(a.sign_name) signer,
+        a.compact_start_date starting_time,a.status contract_status,a.qr_code,a.verification_code,a.verification_date from (
+        select distinct ssci.id compact_id,ssci.gmt_create,ssci.compact_theme,ssui.user_nick_name sponsor,sscs.sign_name,
+        ssci.compact_start_date,case ssci.compact_status when '04' then case when now() > ssci.sign_deadline then
+         '06' else case sscs.signatory_id when #{contractQueryReqVO.userId}
+        then concat('04',min(sscs.sign_status)) else '0402' end end else ssci.compact_status end status,
+        ssci.user_id sponsorId,ssci.verification_code,ssci.qr_code,ssci.verification_date
+        from sign_sys_compact_info ssci
+        left join sign_sys_compact_signatory sscs on ssci.id = sscs.compact_id and ssci.compact_status not in ('01','02')
+        LEFT JOIN sign_sys_compact_copy sscc ON ssci.id = sscc.compact_id and ssci.compact_status not in ('01','02')
+        LEFT JOIN sign_sys_user_info ssui ON ssci.user_id = ssui.id
+        where ssci.is_deleted = 0 AND ssci.type = '02' AND (sscs.signatory_id = #{contractQueryReqVO.userId} or
+        ssci.user_id =
+        #{contractQueryReqVO.userId} or sscc.user_id = #{contractQueryReqVO.userId}) and ssci.org_id =
+        #{contractQueryReqVO.orgId}
+        <if test="contractQueryReqVO.content != null and contractQueryReqVO.content != ''">
+            <bind name="like" value="'%'+contractQueryReqVO.content+'%'"/>
+            and ssci.compact_theme like #{like}
+        </if>
+        <if test="contractQueryReqVO.timeBefore != null">
+            and ssci.gmt_create >= #{contractQueryReqVO.timeBefore}
+        </if>
+        <if test="contractQueryReqVO.timeAfter != null">
+            and ssci.gmt_create <![CDATA[<= date_add(#{contractQueryReqVO.timeAfter},interval 1 day )]]>
+        </if>
+        <if test="contractQueryReqVO.status != null and contractQueryReqVO.status.length() == 2 and contractQueryReqVO.status != '06'">
+            and ssci.compact_status = #{contractQueryReqVO.status}
+        </if>
+        <if test="contractQueryReqVO.status != null and contractQueryReqVO.status == '06'">
+            and ssci.compact_status = '04' and now() > ssci.sign_deadline
+        </if>
+        <if test="contractQueryReqVO.status != null and contractQueryReqVO.status.length() == 4">
+            and sscs.sign_status = substr(#{contractQueryReqVO.status},3,2) AND sscs.signatory_id =
+            #{contractQueryReqVO.userId} and ssci.compact_status = '04'
+            and  coalesce(ssci.sign_deadline,date_add(now(),interval 1 minute )) > now()
+        </if>
+        <if test="contractQueryReqVO.status != null and contractQueryReqVO.status.length() == 6">
+            and ((sscs.sign_status in (substr(#{contractQueryReqVO.status}, 3, 2),substr(#{contractQueryReqVO.status}, 5, 2))
+            and sscs.signatory_id = #{contractQueryReqVO.userId})
+            or (sscs.sign_status not in (substr(#{contractQueryReqVO.status}, 3, 2),substr(#{contractQueryReqVO.status}, 5, 2))
+            and sscs.signatory_id != #{contractQueryReqVO.userId}))
+            and ssci.compact_status = '04'
+            and coalesce(ssci.sign_deadline, date_add(now(), interval 1 minute)) > now()
+        </if>
+        group by ssci.id,sscs.id,sscc.id )a group by a.compact_id order by a.gmt_create desc
+    </select>
+
+    <!-- 获取添加时间 -->
+    <select id="getAddDate" resultType="java.util.Date">
+        SELECT MAX(gmt_create) AS createDate FROM sign_sys_compact_info
+    </select>
+    <!--即将签约截止-->
+    <select id="comingToSign" resultType="com.iyin.sign.system.entity.SignSysCompactInfo">
+        <![CDATA[
+        select * from sign_sys_compact_info ssci where ssci.is_deleted = 0 and ssci.sign_deadline = date_add(current_date(),interval #{threshold} day)
+        and ssci.compact_status = '04' and ssci.sign_deadline >= current_date()
+        ]]>
+    </select>
+    <!--合同即将到期 -->
+    <select id="comingToValidityPeriod" resultType="com.iyin.sign.system.entity.SignSysCompactInfo">
+        <![CDATA[
+        select * from sign_sys_compact_info ssci where ssci.is_deleted = 0 and ssci.validity_end_date = date_add(current_date(),interval #{threshold} day)
+        and ssci.compact_status = '05' and ssci.validity_end_date >= current_date()
+        ]]>
+    </select>
+</mapper>

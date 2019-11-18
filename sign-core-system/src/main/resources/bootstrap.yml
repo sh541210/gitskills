@@ -1,0 +1,170 @@
+server:
+  port: 18001
+spring:
+  application:
+    name: sign-core-system
+  profiles:
+    active: dev
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: false
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+    multipart:
+      enabled: true
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 150000
+        timeout:
+          enabled: true
+      circuitBreaker:
+        requestVolumeThreshold: 1000
+      fallback:
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 50
+  threadpool:
+    default:
+      coreSize: 100
+  stream:
+    queue:
+      size: 5000
+
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    enabled: false
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.iyin.sign.system.entity
+  typeEnumsPackage: com.iyin.sign.system.entity
+  global-config:
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: INPUT
+      #字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: NOT_EMPTY
+      #驼峰下划线转换
+      column-underline: true
+      #数据库大写下划线转换
+      #capital-mode: true
+      #逻辑删除配置
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      db-type: mysql
+      #自定义填充策略接口实现
+      #meta-object-handler: com.baomidou.springboot.xxx
+      #自定义SQL注入器
+      #sql-injector: com.baomidou.springboot.xxx
+    #刷新mapper 调试神器
+    refresh: true
+  # 原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+api:
+  token:
+    tokenExpirationTime: 1440 #单位分钟
+    tokenIssuer: sign-sys
+    tokenSigningKey: xm8EV6Hy5RMFK4EEACIDAwQusxm8EV6Hy5RMFK4EEACIDAwQusxm8EV6Hy5RMFK4EEACIDAwQusxm8EV6Hy5RMFK4EEACIDAwQus
+fiter:
+  button: true
+  skipUrls: swagger,api-docs,loginByUserNameAndPwd,login,auth,downloadExeclSamples,downloadUserExeclSamples,downloadUserBatchImportResult,electronics,scan,downloadBatchImportResult,getValicode,queryListAdminUser,/verify/sign/file/,/document/downloadSignDoc/,/verify/licence,/verify/getMachineCode,downloadBatchImport,qrCode,short,signO
+request:
+  limit: ${req.limit:10}
+
+systemName: iyin
+
+logging:
+  level:
+    root: info
+
+contract:
+#  短信内容
+  start: ${title:【深圳安印】}{}发送给您一份合同《{}》,{}请您{} 签署。
+  urge: ${title:【深圳安印】}请您尽快完成合同《{}》 的签署工作，可以{} 签署。
+  refuse: ${title:【深圳安印】}{}拒签了您的《{}》合同,请您登录系统查看详情。
+  revoke: ${title:【深圳安印】}发起人{}对《{}》合同,进行撤销操作，请您登录系统查看详情。
+  coming_to_sign_time: ${title:【深圳安印】}需您尽快签署的《{}》合同,签约有效期截止{}，请您尽快完成签署，{} 查看详情。
+  coming_to_sign_deadline: ${title:【深圳安印】}您发起的《{}》合同，部分签署人未完成签署，签约有效期截止{}，请您登录系统查看详情。
+  coming_to_validity_period: ${title:【深圳安印】}您的《{}》合同即将到期，请您尽快重发起合同续约，请您登录系统查看详情。
+  complete: ${title:【深圳安印】}您的《{}》合同已经完成签署，请您登录系统查看详情。
+  h5_link: ${sign.h5_link:about:blank}
+  base_url: ${sign.base_url:about:blank}
+sms:
+  #  验证码有效时间
+  min: 5
+  #  第三方短信服务授权号
+  sn: SDK-USA-010-00111
+  #  第三方短信服务密码
+  pwd: "]68-688]"
+  #  第三方短信服务地址
+  service-url: http://sdk.entinfo.cn:8061/webservice.asmx
+  #  验证码每天最大获取次数
+  times: 5
+  # 单个单位每天调用短信接口次数限制
+  callLimit: 100
+  # 短连接有效期（分钟）
+  shortlinkTimeOut: 43200
+  # 短连接域名
+  href: ${sign.url:about:blank}
+email:
+  #  发件人邮件服务器
+  host: 113.96.232.106
+  port: 465
+  #  发件人地址
+  address: <notify@i-yin.com.cn>
+  #  发件人账号
+  username: notify@i-yin.com.cn
+  #  密码
+  password: iYin2016
+  #  标题
+  title: ${title:安印科技}
+  #  发送人
+  sender: ${sender:安印科技}
+  # 内容
+  head: 【这是${sender:安印科技}系统给您发出的提醒邮件，此为系统邮件请勿回复】
+  dear: 亲爱的用户{}，您好：
+  before:
+  body:
+  foot: 如果您在使用过程中需要任何帮助，欢迎联系${sender:安印科技}客服人员。
+  qq: 客服QQ：3003638738
+  phone: 客服热线：400-919-6663
+  #图片路径
+  picture-url: /image/headImg.png
+  #  验证码有效时间
+  min: 30
+  #  验证码每天最大获取次数
+  times: 50
+
+
+
+
+

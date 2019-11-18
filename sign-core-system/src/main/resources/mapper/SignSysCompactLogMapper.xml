@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.ISignSysCompactLogMapper">
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysCompactLog">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="compact_id" jdbcType="VARCHAR" property="compactId"/>
+        <result column="file_code" jdbcType="VARCHAR" property="fileCode"/>
+        <result column="type" jdbcType="CHAR" property="type"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
+    </resultMap>
+    <!--查询操作日志-->
+    <select id="queryLog" resultType="com.iyin.sign.system.vo.file.resp.CompactLogRespDto">
+        select ssui.user_nick_name name,ssui.user_name phoneOrMail,sscl.type,sscl.create_time operaDate
+        from sign_sys_compact_log sscl
+                 left join sign_sys_user_info ssui on sscl.user_id = ssui.id
+        where sscl.compact_id = #{contractId}
+        order by sscl.create_time desc
+    </select>
+    <!--查询指定操作日志-->
+    <select id="queryDesignationLog" resultType="com.iyin.sign.system.vo.file.resp.CompactLogRespDto">
+        select ssui.user_nick_name name,ssui.user_name phoneOrMail,sscl.type,sscl.create_time operaDate
+        from sign_sys_compact_log sscl
+                 left join sign_sys_user_info ssui on sscl.user_id = ssui.id
+        where sscl.compact_id = #{contractId} and sscl.type = #{type}
+        order by sscl.create_time desc
+    </select>
+</mapper>

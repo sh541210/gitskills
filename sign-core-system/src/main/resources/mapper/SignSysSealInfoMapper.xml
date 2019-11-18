@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.SignSysSealInfoMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysSealInfo">
+        <id column="id" property="id" />
+        <result column="picture_user_type" property="pictureUserType" />
+        <result column="enterprise_or_personal_id" property="enterpriseOrPersonalId" />
+        <result column="picture_type" property="pictureType" />
+        <result column="picture_business_type" property="pictureBusinessType" />
+        <result column="picture_name" property="pictureName" />
+        <result column="picture_code" property="pictureCode" />
+        <result column="picture_pattern" property="picturePattern" />
+        <result column="picture_width" property="pictureWidth" />
+        <result column="picture_height" property="pictureHeight" />
+        <result column="picture_data" property="pictureData" />
+        <result column="picture_data64" property="pictureData64" />
+        <result column="picture_digest" property="pictureDigest" />
+        <result column="remark" property="remark" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="picture_origin" property="pictureOrigin" />
+        <result column="picture_flag" property="pictureFlag" />
+        <result column="picture_path" property="picturePath" />
+        <result column="picture_status" property="pictureStatus" />
+        <result column="certificate_source" property="certificateSource" />
+        <result column="certificate_id" property="certificateId" />
+        <result column="medium_type" property="mediumType" />
+    </resultMap>
+
+    <resultMap id="SealInfoRespVO" type="com.iyin.sign.system.vo.resp.SealInfoRespVO">
+        <id column="id" property="id" />
+        <result column="picture_user_type" property="pictureUserType" />
+        <result column="enterprise_or_personal_id" property="enterpriseOrPersonalId" />
+        <result column="picture_business_type" property="pictureBusinessType" />
+        <result column="picture_type" property="pictureType" />
+        <result column="picture_name" property="pictureName" />
+        <result column="picture_code" property="pictureCode" />
+        <result column="picture_width" property="pictureWidth" />
+        <result column="picture_height" property="pictureHeight" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="picture_path" property="picturePath" />
+        <result column="picture_status" property="pictureStatus" />
+        <result column="certificate_source" property="certificateSource" />
+        <result column="certificate_id" property="certificateId" />
+        <result column="medium_type" property="mediumType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, picture_user_type, enterprise_or_personal_id, picture_type, picture_business_type, picture_name,picture_code,picture_pattern,picture_width,picture_height,
+        picture_data,picture_data64,picture_digest,remark,is_deleted,gmt_create,gmt_modified,picture_origin,picture_flag,picture_path,picture_status,certificate_source,certificate_id,medium_type
+    </sql>
+
+    <sql id="SealInfoRespVO_column_list">
+        a.id, a.picture_user_type, a.enterprise_or_personal_id, a.picture_type, a.picture_business_type, a.picture_name,a.picture_code,a.picture_pattern,a.picture_width,a.picture_height,
+        a.remark,a.is_deleted,a.gmt_create,a.gmt_modified,a.picture_origin,a.picture_flag,a.picture_path,a.picture_status,a.certificate_source,a.certificate_id,a.medium_type
+    </sql>
+
+    <select id="pageListSealInfo" resultMap="SealInfoRespVO">
+        select DISTINCT  <include refid="SealInfoRespVO_column_list"/> from sign_sys_seal_info a
+        where  a.enterprise_or_personal_id = #{reqVO.enterpriseOrPersonalId}
+        <if test="null != reqVO.mediumType and ''!=reqVO.mediumType">
+            and a.medium_type = #{reqVO.mediumType}
+        </if>
+        and a.is_deleted =0
+        ORDER BY  a.gmt_create desc
+    </select>
+
+    <select id="selectPageUserSealInfoList" resultMap="SealInfoRespVO">
+        select DISTINCT  <include refid="SealInfoRespVO_column_list"/> from sign_sys_seal_info a
+        JOIN sign_sys_seal_user b
+        on a.id = b.seal_id
+        where  a.enterprise_or_personal_id = #{reqVO.enterpriseOrPersonalId}
+        and b.user_id = #{reqVO.userId}
+        <if test="null != reqVO.mediumType and ''!=reqVO.mediumType">
+            and a.medium_type = #{reqVO.mediumType}
+        </if>
+        and a.is_deleted =0
+        and b.is_deleted =0
+        ORDER BY  b.gmt_create desc
+    </select>
+</mapper>

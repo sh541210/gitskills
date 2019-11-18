@@ -1,0 +1,110 @@
+env:
+  msg:  ------------本次应用启动读取了test的配置信息--------------
+
+spring:
+  datasource:
+    #测试环境数据库配置
+#    url: jdbc:mysql://192.168.51.218:6284/new_user_center?allowMultiQueries=true&useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8
+#    username: newuc
+#    password: ODcyYzEyNzIzOTNk
+    url: jdbc:mysql://192.168.51.241:3306/asign_system?allowMultiQueries=true&useUnicode=true&zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8&rewriteBatchedStatements=true
+    username: root
+    password: meimima
+  druid:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 100
+    maxIdle: 50
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 10
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  aop:
+    auto: true
+    proxy-target-class: true
+  redis:
+    host: 192.168.51.90
+    port: 6379
+    database: 15
+    password: meimima
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+fastdfs:
+  charset: UTF-8
+  connect_timeout_in_seconds: 5
+  http_anti_steal_token: false
+  http_secret_key: FastDFS1234567890
+  http_tracker_http_port: 8888
+  network_timeout_in_seconds: 30
+  tracker_servers: 192.168.51.212:22122
+  fastdfs_head: http://
+  #fastdfs_ip_port: 192.168.51.218:6342/
+  #支持测试环境在外网也能访问，配置域名，安全模式和个人模式都可以访问
+  fastdfs_ip_port:  sign.sys.fdfs.oa.com/
+
+openoffice:
+  converter:
+    #    host: 192.168.51.230
+    host: 192.168.51.228 # nginx代理了 230 209
+    port: 8101
+#文件服务
+file-path: http://sign.sys.fdfs.oa.com/
+#文件转pdf临时目录
+fileTempPath: /usr/local/document/temp/
+#合同模板 单个模板文件个数
+file-num: 100
+
+#授权文件目录
+localFilePath:
+  auth: /usr/local/services/auth/
+  ##local
+  #auth: D://
+  #signKey
+  signKey: QXBwbGljYXRpb25JZD1BbllpbktlSmkmTm9uY2U9MTE1NjU2MjAtZDkzNS00YzU1LWExMzctMDE0NTVjY2RiMjA2JlNlY3JldElkPTlCNDktNEUyQS01RjQ0QjQmVGltZXN0YW1wPTE1NjYzNTE0NzQ1OTQ
+  userMac: 52-54-00-AC-84-FC
+  userName: 电子签章系统V1.2.1
+  userEn: 安印科技有限公司
+
+##运行环境:linux/windows下的C++程序路径
+eseal-picture:
+#  windows:
+#  app-path: C:/localSealFile/cutPicMode/GetPicMode
+#  temp-file-path: C:/localSealFile/temp/
+#  app-new-path: T:/localSealFile/handle_seal
+#  temp-file-path: T:/localSealFile/document/seal/
+  app-new-path: /usr/local/handle_seal/handle_seal
+  temp-file-path: /usr/local/document/seal/
+
+##白鹤印章管家对接
+private-baihe:
+  url: http://www.baiheyz.com:8080/bhsealappservice
+  ##白鹤相关参数
+  appKey: 190919357296
+  secret: 524b6e4d01d82122ecd239a97a8398fc
+  ##公司id
+  companyId: 9b0393c3728e4e71bd03f0a9acf668a8
+  ##管理员手机号
+  managerPhone: 18607276802
+
+#thread pool
+traffic:
+  executor:
+    name: "trafficServiceExecutor"
+    core-pool-size: 5
+    max-pool-size: 100
+    queue-capacity: 200
+    keep-alive-seconds: 30000
+    thread-name-prefix: "traffic-service-"
+sign:
+  h5_link:
+  base_url: http://sign.oa.com/sign-sys/
+  url: http://sign.oa.com/sign/short/

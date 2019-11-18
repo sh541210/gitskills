@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.ISysSignatureLogMapper">
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SysSignatureLog">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="seal_name" jdbcType="VARCHAR" property="sealName"/>
+        <result column="seal_code" jdbcType="VARCHAR" property="sealCode"/>
+        <result column="seal_type" jdbcType="CHAR" property="sealType"/>
+        <result column="medium_type" jdbcType="VARCHAR" property="mediumType"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="file_code" jdbcType="VARCHAR" property="fileCode"/>
+        <result column="signature_type" jdbcType="CHAR" property="signatureType"/>
+        <result column="signature_model" jdbcType="CHAR" property="signatureModel"/>
+        <result column="signature_name" jdbcType="CHAR" property="signatureName"/>
+        <result column="signature_result" jdbcType="CHAR" property="signatureResult"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="sign_file_hash" jdbcType="VARCHAR" property="signFileHash"/>
+        <result column="sign_file_code" jdbcType="VARCHAR" property="signFileCode"/>
+        <result column="page" jdbcType="BIGINT" property="page"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="multi_param" jdbcType="LONGVARCHAR" property="multiParam"/>
+        <result column="ip_address" jdbcType="VARCHAR" property="ipAddress"/>
+        <result column="mac_address" jdbcType="VARCHAR" property="macAddress"/>
+        <result column="device_name" jdbcType="VARCHAR" property="deviceName"/>
+    </resultMap>
+
+    <!-- 根据文件编码查询签章记录 -->
+    <select id="selectByFileCode" resultType="com.iyin.sign.system.vo.resp.DocumentSignLogRespDTO">
+        SELECT
+            sl.id log_id,
+            coalesce(u.user_nick_name,u.user_name) user_name,
+            e.chinese_name org_name,
+            p.personal_name,
+            sl.file_name,
+            sl.seal_name,
+            sl.seal_type,
+            sl.seal_code,
+            sl.medium_type,
+            sl.sign_file_hash,
+            sl.create_date
+        FROM
+            sign_sys_signature_log sl
+            LEFT JOIN sign_sys_user_info u ON sl.user_id = u.id
+            LEFT JOIN sign_sys_enterprise_info e ON u.enterprise_or_personal_id = e.id
+            LEFT JOIN sign_sys_personal_info p ON u.enterprise_or_personal_id = p.id
+        WHERE
+            sl.file_code = #{fileCode} and sl.is_deleted = 0 and sl.signature_result = '01' order by sl.id desc,sl.create_date desc
+    </select>
+
+    <resultMap id="enterpriseSignLogRespVO" type="com.iyin.sign.system.vo.resp.EnterpriseSignLogRespVO">
+        <result column="id" property="logId"/>
+        <result column="user_nick_name" property="userNickName"/>
+        <result column="file_name" property="fileName"/>
+        <result column="seal_name" property="sealName"/>
+        <result column="seal_type" property="sealBusinessType"/>
+        <result column="seal_code" property="sealCode"/>
+        <result column="medium_type" property="mediumType"/>
+        <result column="sign_file_hash" property="signFileHash"/>
+        <result column="create_date" property="createDate"/>
+    </resultMap>
+
+
+    <sql id="enterprsie_sign_log_cloum">
+        l.id, u.user_nick_name,l.file_name,l.seal_name,l.seal_type,l.seal_code,l.medium_type,l.sign_file_hash,l.create_date
+    </sql>
+
+    <sql id="enterprsie_sign_log_condition">
+        <if test="reqVO.fileName!= null and reqVO.fileName != ''">
+            AND l.file_name like concat('%', #{reqVO.fileName},'%')
+        </if>
+        <if test="reqVO.sealCode!=null and reqVO.sealCode != ''">
+            AND l.seal_code =#{reqVO.sealCode}
+        </if>
+    </sql>
+
+    <select id="pageListSignLog" resultMap="enterpriseSignLogRespVO">
+        select
+        temp.id, temp.user_nick_name,temp.file_name,temp.seal_name,temp.seal_type,temp.seal_code,temp.medium_type,temp.sign_file_hash,temp.create_date
+        from
+        (SELECT
+        <include refid="enterprsie_sign_log_cloum"/> FROM
+        sign_sys_signature_log l
+        LEFT JOIN sign_sys_user_info u
+        ON l.user_id = u.id
+        LEFT JOIN sign_sys_enterprise_info e
+        ON u.enterprise_or_personal_id = e.id
+        WHERE e.id = #{reqVO.enterpriseId}
+        AND l.is_deleted=0
+        <include refid="enterprsie_sign_log_condition"/>
+        UNION
+        SELECT
+        <include refid="enterprsie_sign_log_cloum"/> FROM sign_sys_signature_log l
+        LEFT JOIN sign_sys_user_info u
+        ON l.user_id = u.id
+        WHERE l.user_id = #{reqVO.enterpriseId}
+        AND l.is_deleted=0
+        <include refid="enterprsie_sign_log_condition"/>
+        ) temp
+        order by temp.create_date desc
+    </select>
+
+    <select id="userPageListSignLog" resultMap="enterpriseSignLogRespVO">
+        SELECT l.id,
+        u.user_name,l.file_name,l.seal_name,l.seal_type,l.seal_code,l.medium_type,l.sign_file_hash,l.create_date FROM
+        sign_sys_signature_log l
+        LEFT JOIN sign_sys_user_info u
+        ON l.user_id = u.id
+        WHERE u.id = #{reqVO.userId}
+        AND l.is_deleted=0
+        <if test="reqVO.fileName!= null and reqVO.fileName != ''">
+            AND l.file_name = #{reqVO.fileName}
+        </if>
+        <if test="reqVO.sealCode!=null and reqVO.sealCode != ''">
+            AND l.seal_code =#{reqVO.sealCode}
+        </if>
+        order by l.create_date desc
+    </select>
+
+    <!-- 获取添加时间 -->
+    <select id="getAddDate" resultType="java.util.Date">
+        SELECT MAX(create_date) AS createDate FROM sign_sys_signature_log
+    </select>
+
+    <!-- 获取有效签章次数 -->
+    <select id="getSignCount" resultType="int">
+        SELECT COUNT(1) FROM sign_sys_signature_log WHERE  signature_result='01'
+    </select>
+    <!--签章日志-->
+    <select id="signLog" resultType="com.iyin.sign.system.vo.sign.resp.SignLogRespDTO">
+        SELECT
+            coalesce(u.user_nick_name,u.user_name) signName,
+            sl.file_code,
+            sl.file_name,
+            sl.seal_name,
+            sl.seal_type,
+            sl.create_date signDate,
+            sl.signature_result
+        FROM
+            sign_sys_signature_log sl
+            inner JOIN sign_sys_user_info u ON sl.user_id = u.id and u.enterprise_or_personal_id = #{reqVo.orgId}
+        <where>
+            <if test="reqVo.signatureResult != null and reqVo.signatureResult != ''">
+                sl.signature_result = #{reqVo.signatureResult}
+            </if>
+            <if test="reqVo.sealType != null and reqVo.sealType != ''">
+                and sl.seal_type = #{reqVo.sealType}
+            </if>
+            <if test="reqVo.signDateBefore != null">
+                and sl.create_date >= #{reqVo.signDateBefore}
+            </if>
+            <if test="reqVo.signDateAfter != null">
+                <![CDATA[ and sl.create_date <= date_add(#{reqVo.signDateAfter},interval 1 day ) ]]>
+            </if>
+            <if test="reqVo.word != null and reqVo.word != ''">
+                and (u.user_nick_name like concat('%',#{reqVo.word},'%') or sl.seal_name like concat('%',#{reqVo.word},'%'))
+            </if>
+        </where>
+             and sl.is_deleted = 0 order by sl.create_date desc
+    </select>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.SignSysRoleMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysRole">
+        <id column="id" property="id" />
+        <result column="role_name" property="roleName" />
+        <result column="role_flag" property="roleFlag" />
+        <result column="role_desc" property="roleDesc" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <resultMap id="SignSysRoleRespVO" type="com.iyin.sign.system.vo.resp.SignSysRoleRespVO">
+        <id column="id" property="id" />
+        <result column="role_name" property="roleName" />
+        <result column="role_flag" property="roleFlag" />
+        <result column="role_desc" property="roleDesc" />
+        <result column="gmt_create" property="gmtCreate" />
+    </resultMap>
+
+
+    <sql id="base_cloum">
+        id,role_name,role_flag,role_desc,gmt_create
+    </sql>
+
+    <select id="pageListRole" resultMap="SignSysRoleRespVO">
+        SELECT  <include refid="base_cloum"/> FROM sign_sys_role WHERE is_deleted =0 ORDER BY gmt_create desc
+    </select>
+</mapper>

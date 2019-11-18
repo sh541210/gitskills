@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.ISignSysCompactSignatoryMapper">
+  <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysCompactSignatory">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="compact_id" jdbcType="VARCHAR" property="compactId" />
+    <result column="signatory_id" jdbcType="VARCHAR" property="signatoryId" />
+    <result column="next_signatory_id" jdbcType="VARCHAR" property="nextSignatoryId" />
+    <result column="sign_status" jdbcType="CHAR" property="signStatus" />
+    <result column="sign_contact" jdbcType="VARCHAR" property="signContact" />
+    <result column="sign_name" jdbcType="VARCHAR" property="signName" />
+    <result column="serial_number" jdbcType="INTEGER" property="serialNumber" />
+    <result column="is_key_signature" jdbcType="TINYINT" property="isKeySignature" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="turn_sign_flag" jdbcType="TINYINT" property="turnSignFlag" />
+    <result column="turn_to_id" jdbcType="VARCHAR" property="turnToId" />
+    <result column="turn_date" jdbcType="TIMESTAMP" property="turnDate" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="creat_user" jdbcType="VARCHAR" property="creatUser" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="sign_date" jdbcType="TIMESTAMP" property="signDate" />
+  </resultMap>
+  <!--更新签署状态-->
+    <update id="updateByCompactId">
+      update sign_sys_compact_signatory set sign_status = #{code}, sign_date = coalesce(sign_date,now()) where compact_id = #{compactId}
+    </update>
+
+</mapper>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iyin.sign.system.mapper.SysSignApplicationMapper" >
+  <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SysSignApplication" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_app_id" property="userAppId" jdbcType="VARCHAR" />
+    <result column="user_app_sceret" property="userAppSceret" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="application_abled" property="applicationAbled" jdbcType="INTEGER" />
+    <result column="application_delete" property="applicationDelete" jdbcType="INTEGER" />
+    <result column="application_desc" property="applicationDesc" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="filed1" property="filed1" jdbcType="VARCHAR" />
+    <result column="filed2" property="filed2" jdbcType="VARCHAR" />
+    <result column="application_name" property="applicationName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="DetailResultMap" type="com.iyin.sign.system.dto.req.SysSignApplicationDTO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_app_id" property="userAppId" jdbcType="VARCHAR" />
+    <result column="user_app_sceret" property="userAppSceret" jdbcType="VARCHAR" />
+    <result column="application_abled" property="applicationAbled" jdbcType="INTEGER" />
+    <result column="application_delete" property="applicationDelete" jdbcType="INTEGER" />
+    <result column="application_desc" property="applicationDesc" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="application_name" property="applicationName" jdbcType="VARCHAR" />
+    <result column="user_nick_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="chinese_name" property="createEnName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, user_app_id, user_app_sceret, user_id, application_abled, application_delete,
+    application_desc, create_time, modify_time, filed1, filed2,application_name
+  </sql>
+
+  <update id="updateApplication" parameterType="com.iyin.sign.system.entity.SysSignApplication" >
+    update sign_sys_application
+    <set >
+      <if test="userAppId != null" >
+        user_app_id = #{userAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="userAppSceret != null" >
+        user_app_sceret = #{userAppSceret,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationAbled != null" >
+        application_abled = #{applicationAbled,jdbcType=INTEGER},
+      </if>
+      <if test="applicationDelete != null" >
+        application_delete = #{applicationDelete,jdbcType=INTEGER},
+      </if>
+      <if test="applicationDesc != null" >
+        application_desc = #{applicationDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="filed1 != null" >
+        filed1 = #{filed1,jdbcType=VARCHAR},
+      </if>
+      <if test="filed2 != null" >
+        filed2 = #{filed2,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationName != null" >
+        application_name = #{applicationName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getPageList" resultMap="DetailResultMap">
+    SELECT s.*,u.`user_nick_name`,e.chinese_name FROM sign_sys_application s
+    LEFT JOIN sign_sys_user_info u ON s.`user_id`=u.`id`
+    LEFT JOIN sign_sys_enterprise_info e ON u.`enterprise_or_personal_id`=e.`id`
+    WHERE 1=1 AND s.application_delete = 0
+    <if test="sysSignApplicationDTO.applicationName != null and sysSignApplicationDTO.applicationName != '' " >
+      and  s.application_name like '%${sysSignApplicationDTO.applicationName}%'
+    </if>
+    <if test="sysSignApplicationDTO.userId != null and sysSignApplicationDTO.userId != '' " >
+      and  s.user_id = #{sysSignApplicationDTO.userId}
+    </if>
+    order by create_time desc
+  </select>
+
+  <update id="deleteApplication" parameterType="com.iyin.sign.system.entity.SysSignApplication" >
+    update sign_sys_application
+    <set >
+      <if test="applicationAbled != null" >
+        application_abled = #{applicationAbled,jdbcType=INTEGER},
+      </if>
+      <if test="applicationDelete != null" >
+        application_delete = #{applicationDelete,jdbcType=INTEGER},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="filed1 != null" >
+        filed1 = #{filed1,jdbcType=VARCHAR},
+      </if>
+      <if test="filed2 != null" >
+        filed2 = #{filed2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <!--自定义查询应用详情-->
+  <resultMap id="voApplicationMap" type="com.iyin.sign.system.entity.SysSignApplication" >
+    <result column="user_app_id" property="userAppId" jdbcType="VARCHAR" />
+    <result column="user_app_sceret" property="userAppSceret" jdbcType="VARCHAR" />
+    <result column="application_abled" property="applicationAbled" jdbcType="INTEGER" />
+    <result column="application_delete" property="applicationDelete" jdbcType="INTEGER" />
+    <result column="application_desc" property="applicationDesc" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="application_name" property="applicationName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getApplicationById" resultMap="voApplicationMap" parameterType="com.iyin.sign.system.dto.req.SysApplicationDto">
+  select s.user_app_id, s.user_app_sceret,application_abled,s.user_id, application_delete, application_desc, create_time,application_name FROM  sign_sys_application s
+  WHERE 1=1 and s.application_delete=0
+  <if test="userAppId != null" >
+    and user_app_id = #{userAppId}
+  </if>
+  <if test="userAppSceret != null" >
+    and user_app_sceret = #{userAppSceret}
+  </if>
+  <if test="applicationName != null" >
+    and application_name = #{applicationName}
+  </if>
+  <if test="id != null" >
+    and id = #{id}
+  </if>
+  </select>
+
+</mapper>

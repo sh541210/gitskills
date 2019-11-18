@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.ISignSysCompactFileMapper">
+  <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysCompactFile">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="compact_id" jdbcType="VARCHAR" property="compactId" />
+    <result column="file_code" jdbcType="VARCHAR" property="fileCode" />
+    <result column="file_code_origin" jdbcType="VARCHAR" property="fileCodeOrigin" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_type" jdbcType="CHAR" property="fileType" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="creat_user" jdbcType="VARCHAR" property="creatUser" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="page_total" jdbcType="INTEGER" property="pageTotal" />
+  </resultMap>
+</mapper>

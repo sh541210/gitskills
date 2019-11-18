@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.FileResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.FileResource">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="file_code" property="fileCode" />
+        <result column="file_name" property="fileName" />
+        <result column="file_path" property="filePath" />
+        <result column="atomization_file_path" property="atomizationFilePath" />
+        <result column="file_size" property="fileSize" />
+        <result column="file_hash" property="fileHash" />
+        <result column="file_type" property="fileType" />
+        <result column="print_num" property="printNum" />
+        <result column="sign_count" property="signCount" />
+        <result column="down_count" property="downCount" />
+        <result column="verification_code" property="verificationCode" />
+        <result column="gmt_verification" property="gmtVerification" />
+        <result column="qr_code" property="qrCode" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="gmt_mod" property="gmtMod" />
+        <result column="print_dis_num" property="printDisNum" />
+        <result column="page_total" property="pageTotal" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DetailResultMap" type="com.iyin.sign.system.vo.file.FileResourceDto">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="file_code" property="fileCode" />
+        <result column="file_name" property="fileName" />
+        <result column="file_path" property="filePath" />
+        <result column="file_hash" property="fileHash" />
+        <result column="file_type" property="fileType" />
+        <result column="print_num" property="printNum" />
+        <result column="file_size" property="fileSize" />
+        <result column="sign_count" property="signCount" />
+        <result column="down_count" property="downCount" />
+        <result column="verification_code" property="verificationCode" />
+        <result column="gmt_verification" property="gmtVerification" />
+        <result column="qr_code" property="qrCode" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="gmt_mod" property="gmtMod" />
+        <result column="user_nick_name" property="createUserName" />
+        <result column="page_total" property="pageTotal" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, file_code, file_name, file_path, print_num, file_size, file_hash, file_type, is_deleted, sign_count,
+        down_count, verification_code, gmt_verification, qr_code, gmt_create, gmt_modified, gmt_mod,print_dis_num,page_total
+    </sql>
+
+    <!-- 通用查询结果列 -->
+    <resultMap id="FileMangeRespDTO" type="com.iyin.sign.system.vo.file.resp.FileManageQueryRespDTO">
+        <result column="compact_theme" property="compactTheme" />
+        <result column="file_code" property="fileCode" />
+        <result column="qr_code" property="qrCode" />
+        <result column="creat_user" property="creatUser" />
+        <result column="sign_count" property="signCount" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="verification_date" property="gmtVerification" />
+    </resultMap>
+
+    <update id="updateFile" parameterType="com.iyin.sign.system.entity.FileResource" >
+        update sign_sys_file_resource
+        <set >
+            <if test="fileName != null" >
+                file_name = #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="filePath != null" >
+                file_path = #{filePath,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null" >
+                file_size = #{fileSize,jdbcType=VARCHAR},
+            </if>
+            <if test="fileHash != null" >
+                file_hash = #{fileHash,jdbcType=VARCHAR},
+            </if>
+            <if test="fileType != null" >
+                file_type = #{fileType,jdbcType=VARCHAR},
+            </if>
+            <if test="signCount != null" >
+                sign_count = #{signCount,jdbcType=BIGINT},
+            </if>
+            <if test="downCount != null" >
+                down_count = #{downCount,jdbcType=BIGINT},
+            </if>
+            <if test="printNum != null" >
+                print_num = #{printNum,jdbcType=BIGINT},
+            </if>
+            <if test="fileType != null" >
+                file_type = #{fileType,jdbcType=VARCHAR},
+            </if>
+            <if test="verificationCode != null" >
+                verification_code = #{verificationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="qrCode != null" >
+                qr_code = #{qrCode,jdbcType=BIGINT},
+            </if>
+            <if test="gmtVerification != null" >
+                gmt_verification = #{gmtVerification,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtModified != null" >
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtMod != null" >
+                gmt_mod = #{gmtMod,jdbcType=TIMESTAMP},
+            </if>
+            <if test="printDisNum != null" >
+                print_dis_num = #{printDisNum,jdbcType=BIGINT},
+            </if>
+            <if test="pageTotal != null" >
+                page_total = #{pageTotal,jdbcType=BIGINT},
+            </if>
+        </set>
+        where file_code = #{fileCode,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getPageList" resultMap="DetailResultMap">
+        select * from sign_sys_file_resource s where 1=1 and s.is_deleted = 0
+        <if test="fileResourceDto.fileName != null and fileResourceDto.fileName != '' " >
+            and  s.file_name like '%${fileResourceDto.fileName}%'
+        </if>
+        order by gmt_create desc
+    </select>
+
+    <!--查询文档列表-->
+    <select id="queryByName" resultMap="DetailResultMap">
+        SELECT s.*,u.`user_nick_name` FROM sign_sys_file_resource s LEFT JOIN sign_sys_user_info u ON s.`user_id`=u.`id` WHERE 1=1 AND s.is_deleted = 0 AND file_path REGEXP '.pdf$'
+        <if test="fileResourceListVO.fileName != null and fileResourceListVO.fileName != '' " >
+            and  s.file_name like '%${fileResourceListVO.fileName}%'
+        </if>
+        <if test="fileResourceListVO.userIds != null and fileResourceListVO.userIds.size() != 0 " >
+            and  s.user_id in
+            <foreach collection="fileResourceListVO.userIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by gmt_create desc
+    </select>
+
+    <!--验证码验证签章-->
+    <select id="queryDocumetnByValityCode" resultMap="BaseResultMap">
+        select * from ( SELECT CASE WHEN ei.id IS NULL THEN
+           ( SELECT id FROM sign_sys_enterprise_info WHERE is_deleted = 0 ORDER BY gmt_create ASC LIMIT 1 ) ELSE ei.id
+            END eiid,s.*
+        FROM
+            sign_sys_file_resource s
+            LEFT JOIN sign_sys_user_info su ON su.user_type = '01'
+            AND s.user_id = su.id
+            LEFT JOIN sign_sys_enterprise_info ei ON ei.id = su.enterprise_or_personal_id ) a
+        WHERE a.is_deleted = 0 AND a.file_path REGEXP '.pdf$' AND (a.gmt_verification >= CURRENT_DATE or a.gmt_verification = 0)
+            AND a.verification_code = #{verificationCode} AND a.eiid = #{enterpriseId}
+        GROUP BY a.id
+    </select>
+
+    <update id="updateOtherFile">
+        update sign_sys_file_resource set atomization_file_path = #{path} where file_code = #{fileCode,jdbcType=VARCHAR}
+    </update>
+
+    <!--查询文件管理列表-->
+    <select id="queryFileManageByName" resultMap="FileMangeRespDTO">
+        select compact_theme,creat_user,verification_code,qr_code,sign_count,gmt_create,max(gmt_modified) gmt_modified,id,
+        verification_date,file_code from (SELECT
+        distinct ssci.compact_theme,case when ssau.user_name is null then ssui.user_nick_name else ssau.user_name end creat_user,
+        ssci.verification_code,ssci.qr_code,s.sign_count,ssci.gmt_create,sscs.sign_date gmt_modified,ssci.id,
+        ssci.verification_date,s.file_code
+        FROM
+        sign_sys_compact_info ssci
+        LEFT JOIN sign_sys_compact_file sscf ON ssci.id = sscf.compact_id
+        LEFT JOIN sign_sys_file_resource s ON sscf.file_code = s.file_code
+        LEFT JOIN sign_sys_admin_user ssau ON ssci.user_id = ssau.id
+        LEFT JOIN sign_sys_user_info ssui ON ssci.user_id = ssui.id
+        LEFT JOIN sign_sys_compact_signatory sscs ON ssci.id = sscs.compact_id
+        WHERE ssci.is_deleted = 0 AND ssci.user_id = #{userId}
+        AND ssci.type = #{type} and ssci.org_id = #{orgId}
+        <if test="fileName != null and fileName != '' " >
+            and  ssci.compact_theme like '%${fileName}%'
+        </if>
+        union
+        SELECT
+        distinct ssci.compact_theme,case when ssau.user_name is null then ssui.user_nick_name else ssau.user_name end creat_user,
+        ssci.verification_code,ssci.qr_code,s.sign_count,ssci.gmt_create,sscs.sign_date gmt_modified,ssci.id,
+        ssci.verification_date,s.file_code
+        FROM
+        sign_sys_compact_info ssci
+        LEFT JOIN sign_sys_compact_file sscf ON ssci.id = sscf.compact_id
+        LEFT JOIN sign_sys_file_resource s ON sscf.file_code = s.file_code
+        LEFT JOIN sign_sys_compact_copy sscc ON ssci.id = sscc.compact_id
+        LEFT JOIN sign_sys_admin_user ssau ON ssci.creat_user = ssau.id
+        LEFT JOIN sign_sys_user_info ssui ON ssci.creat_user = ssui.id
+        LEFT JOIN sign_sys_compact_signatory sscs ON ssci.id = sscs.compact_id
+        WHERE sscc.user_id = #{userId}
+        AND ssci.type = #{type} and ssci.org_id = #{orgId}
+        AND ssci.is_deleted = 0
+        <if test="fileName != null and fileName != '' " >
+            and  ssci.compact_theme like '%${fileName}%'
+        </if>
+        union
+        SELECT
+        distinct ssci.compact_theme,case when ssau.user_name is null then ssui.user_nick_name else ssau.user_name end creat_user,
+        ssci.verification_code,ssci.qr_code,s.sign_count,ssci.gmt_create,sscs.sign_date gmt_modified,ssci.id,
+        ssci.verification_date,s.file_code
+        FROM
+        sign_sys_compact_info ssci
+        LEFT JOIN sign_sys_compact_file sscf ON ssci.id = sscf.compact_id
+        LEFT JOIN sign_sys_file_resource s ON sscf.file_code = s.file_code
+        LEFT JOIN sign_sys_admin_user ssau ON ssci.creat_user = ssau.id
+        LEFT JOIN sign_sys_user_info ssui ON ssci.creat_user = ssui.id
+        LEFT JOIN sign_sys_compact_signatory sscs ON ssci.id = sscs.compact_id
+        WHERE ssci.type = #{type} AND sscs.signatory_id = #{userId}  and ssci.org_id = #{orgId}
+        AND ssci.is_deleted = 0
+        <if test="fileName != null and fileName != '' " >
+            and  ssci.compact_theme like '%${fileName}%'
+        </if>
+        ) a GROUP BY a.id order by a.gmt_create desc
+    </select>
+
+    <!-- 获取添加时间 -->
+    <select id="getAddDate" resultType="java.util.Date">
+        SELECT MAX(gmt_create) AS createDate FROM sign_sys_file_resource
+    </select>
+</mapper>

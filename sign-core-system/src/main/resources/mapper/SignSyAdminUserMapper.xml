@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.SignSysAdminUserMapper">
+
+    <resultMap id="SignSysAdminUser" type="com.iyin.sign.system.entity.SignSysAdminUser" >
+        <result column="id" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="remark" property="remark" />
+        <result column="create_date" property="createDate" />
+        <result column="create_user" property="createUser" />
+        <result column="update_date" property="updateDate" />
+        <result column="update_user" property="updateUser" />
+        <result column="is_delete" property="isDeleted" />
+        <result column="enterprise_id" property="enterpriseId" />
+        <result column="power_level" property="powerLevel" />
+        <result column="user_nick_name" property="userNickName" />
+   </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`,
+        `user_name`,
+        `password`,
+        `remark`,
+        `create_date`,
+        `publish_date`,
+        `create_user`,
+        `update_date`,
+        `update_user`,
+        `is_delete`,
+        `enterprise_id`,
+        `power_level`,
+        `user_nick_name`
+    </sql>
+
+    <!-- 获取添加时间 -->
+    <select id="getAddDate" resultType="java.util.Date">
+        SELECT MAX(create_date) AS createDate FROM sign_sys_admin_user
+    </select>
+
+
+</mapper>

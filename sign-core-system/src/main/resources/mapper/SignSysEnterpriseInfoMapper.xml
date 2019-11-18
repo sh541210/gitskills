@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.SignSysEnterpriseInfoMapper">
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysEnterpriseInfo">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="chinese_name" jdbcType="VARCHAR" property="chineseName" />
+        <result column="minority_name" jdbcType="VARCHAR" property="minorityName" />
+        <result column="english_name" jdbcType="VARCHAR" property="englishName" />
+        <result column="credit_code" jdbcType="CHAR" property="creditCode" />
+        <result column="license_code" jdbcType="CHAR" property="licenseCode" />
+        <result column="organization_code" jdbcType="CHAR" property="organizationCode" />
+        <result column="undeclared_code" jdbcType="VARCHAR" property="undeclaredCode" />
+        <result column="area_code" jdbcType="CHAR" property="areaCode" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="unit_type" jdbcType="TINYINT" property="unitType" />
+        <result column="nationality" jdbcType="CHAR" property="nationality" />
+        <result column="province" jdbcType="VARCHAR" property="province" />
+        <result column="city" jdbcType="VARCHAR" property="city" />
+        <result column="area" jdbcType="VARCHAR" property="area" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="startup_date" jdbcType="DATE" property="startupDate" />
+        <result column="legal_name" jdbcType="VARCHAR" property="legalName" />
+        <result column="legal_telephone" jdbcType="CHAR" property="legalTelephone" />
+        <result column="legal_certificate_type" jdbcType="CHAR" property="legalCertificateType" />
+        <result column="legal_certificate_no" jdbcType="VARCHAR" property="legalCertificateNo" />
+        <result column="legal_address" jdbcType="VARCHAR" property="legalAddress" />
+        <result column="details_info" jdbcType="VARCHAR" property="detailsInfo" />
+        <result column="organization_logo_path" jdbcType="VARCHAR" property="organizationLogoPath" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+        <result column="certification_levels" jdbcType="VARCHAR" property="certificationLevels" />
+        <result column="business_end_time" jdbcType="DATE" property="businessEndTime" />
+        <result column="business_scope" jdbcType="VARCHAR" property="businessScope" />
+        <result column="industry" jdbcType="VARCHAR" property="industry" />
+        <result column="company_size" jdbcType="VARCHAR" property="companySize" />
+        <result column="publish_certification_time" jdbcType="DATE" property="publishCertificationTime" />
+        <result column="registration_company" jdbcType="VARCHAR" property="registrationCompany" />
+        <result column="business_start_time" jdbcType="DATE" property="businessStartTime" />
+        <result column="capital_type" jdbcType="VARCHAR" property="capitalType" />
+        <result column="capital" jdbcType="VARCHAR" property="capital" />
+        <result column="company_website_url" jdbcType="VARCHAR" property="companyWebsiteUrl" />
+        <result column="company_email" jdbcType="VARCHAR" property="companyEmail" />
+        <result column="fax" jdbcType="VARCHAR" property="fax" />
+        <result column="real_name_authentication_flag" jdbcType="BIT" property="realNameAuthenticationFlag" />
+        <result column="real_name_authentication_time" jdbcType="TIMESTAMP" property="realNameAuthenticationTime" />
+        <result column="real_name_authentication_from_biz_system_code" jdbcType="VARCHAR" property="realNameAuthenticationFromBizSystemCode" />
+        <result column="business_license_pic" jdbcType="VARCHAR" property="businessLicensePic" />
+        <result column="legal_person_identity_card_front_pic" jdbcType="VARCHAR" property="legalPersonIdentityCardFrontPic" />
+        <result column="legal_person_identity_card_back_pic" jdbcType="VARCHAR" property="legalPersonIdentityCardBackPic" />
+        <result column="ext_define" jdbcType="VARCHAR" property="extDefine" />
+        <result column="node_id" jdbcType="VARCHAR" property="nodeId" />
+    </resultMap>
+
+
+    <resultMap id="EnterprsieDetailRespVO" type="com.iyin.sign.system.vo.resp.EnterprsieDetailRespVO">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="chinese_name" jdbcType="VARCHAR" property="chineseName" />
+        <result column="credit_code" jdbcType="CHAR" property="creditCode" />
+        <result column="remark" jdbcType="VARCHAR" property="VARCHAR" />
+        <result column="organization_code" jdbcType="CHAR" property="organizationCode" />
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+        <result column="ext_define" jdbcType="VARCHAR" property="extDefine" />
+        <result column="legal_name" jdbcType="VARCHAR" property="legalName" />
+        <result column="node_id" jdbcType="VARCHAR" property="nodeId" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, chinese_name, minority_name, english_name, credit_code, license_code,
+        organization_code, undeclared_code, area_code, status, type,unit_type, nationality, province,
+        city, area, phone, address, startup_date, legal_name, legal_telephone, legal_certificate_type,
+        legal_certificate_no, legal_address, details_info, organization_logo_path, remark,
+        is_deleted, gmt_create, gmt_modified, certification_levels, business_end_time, business_scope,
+        industry, company_size, publish_certification_time, registration_company, business_start_time,
+        capital_type, capital, company_website_url, company_email, fax, real_name_authentication_flag,
+        real_name_authentication_time, real_name_authentication_from_biz_system_code, business_license_pic,
+        legal_person_identity_card_front_pic, legal_person_identity_card_back_pic,ext_define,node_id
+    </sql>
+
+    <sql id="enterprsie_list_column_list">
+        id, chinese_name, credit_code,organization_code,is_deleted,gmt_create,gmt_modified,ext_define,legal_name,node_id
+    </sql>
+
+
+
+
+    <select id="pageListEnterprise" resultMap="EnterprsieDetailRespVO">
+        select <include refid="enterprsie_list_column_list"/> from sign_sys_enterprise_info
+        <where>
+            1 = 1
+            <if test="null != reqVO.chineseName and ''!=reqVO.chineseName ">
+                and chinese_name like concat('%',#{reqVO.chineseName},'%')
+            </if>
+            <if test="null != reqVO.isDeleted and ''!=reqVO.isDeleted">
+                and is_deleted = #{reqVO.isDeleted}
+            </if>
+        </where>
+        order by gmt_create desc
+    </select>
+
+    <select id="selectAdminBelongEnterprise" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM sign_sys_enterprise_info WHERE is_deleted =0 ORDER BY gmt_create asc LIMIT 1
+    </select>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.ISignSysCompactFieldMapper">
+  <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysCompactField">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="compact_id" jdbcType="VARCHAR" property="compactId" />
+    <result column="compact_file_code" jdbcType="VARCHAR" property="compactFileCode" />
+    <result column="signatory_id" jdbcType="VARCHAR" property="signatoryId" />
+    <result column="sign_name" jdbcType="VARCHAR" property="signName" />
+    <result column="sign_type" jdbcType="CHAR" property="signType" />
+    <result column="signature_method" jdbcType="CHAR" property="signatureMethod" />
+    <result column="signature_start_page" jdbcType="INTEGER" property="signatureStartPage" />
+    <result column="signature_end_page" jdbcType="INTEGER" property="signatureEndPage" />
+    <result column="cover_page_num" jdbcType="INTEGER" property="coverPageNum" />
+    <result column="signature_coordinate_x" jdbcType="DECIMAL" property="signatureCoordinateX" />
+    <result column="signature_coordinate_y" jdbcType="DECIMAL" property="signatureCoordinateY" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="creat_user" jdbcType="VARCHAR" property="creatUser" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+  </resultMap>
+</mapper>

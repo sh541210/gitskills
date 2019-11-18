@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.SignSysTemplateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysTemplate">
+        <id column="id" property="id" />
+        <result column="temp_name" property="tempName" />
+        <result column="temp_purpose" property="tempPurpose" />
+        <result column="temp_status" property="tempStatus" />
+        <result column="temp_html" property="tempHtml" />
+        <result column="temp_type" property="tempType" />
+        <result column="relation_id" property="relationId" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DetailResultMap" type="com.iyin.sign.system.dto.req.SignSysTemplateDTO">
+        <id column="id" property="id" />
+        <result column="temp_name" property="tempName" />
+        <result column="temp_purpose" property="tempPurpose" />
+        <result column="temp_status" property="tempStatus" />
+        <result column="temp_html" property="tempHtml" />
+        <result column="temp_type" property="tempType" />
+        <result column="relation_id" property="relationId" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+        <result column="user_nick_name" property="createUserName" />
+        <result column="user_nick_name" property="updateUserName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, temp_name, temp_purpose, temp_status, temp_html,temp_type, relation_id,is_deleted,gmt_create,gmt_modified,create_user,update_user
+    </sql>
+
+    <update id="updateTemplate" parameterType="com.iyin.sign.system.entity.SignSysTemplate" >
+        update sign_sys_template
+        <set >
+            <if test="tempName != null" >
+                temp_name = #{tempName,jdbcType=VARCHAR},
+            </if>
+            <if test="tempPurpose != null" >
+                temp_purpose = #{tempPurpose,jdbcType=VARCHAR},
+            </if>
+            <if test="tempHtml != null" >
+                temp_html = #{tempHtml,jdbcType=VARCHAR},
+            </if>
+            <if test="relationId != null" >
+                relation_id = #{relationId,jdbcType=VARCHAR},
+            </if>
+            <if test="tempStatus != null" >
+                temp_status = #{tempStatus,jdbcType=BIGINT},
+            </if>
+            <if test="isDeleted != null" >
+                is_deleted = #{isDeleted,jdbcType=BIGINT},
+            </if>
+            <if test="gmtModified != null" >
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null" >
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="getPageList" resultMap="DetailResultMap">
+        SELECT s.*,u.`user_nick_name` FROM sign_sys_template s LEFT JOIN sign_sys_user_info  u ON s.`create_user`=u.`id` WHERE 1=1 AND s.is_deleted = 0
+        <if test="signSysTemplateListVO.tempName != null and signSysTemplateListVO.tempName != '' " >
+            and  s.temp_name like '%${signSysTemplateListVO.tempName}%'
+        </if>
+        <if test="signSysTemplateListVO.userIds != null and signSysTemplateListVO.userIds.size() != 0 " >
+            and  s.create_user in
+            <foreach collection="signSysTemplateListVO.userIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by gmt_create desc
+    </select>
+
+    <!--自定义查询应用详情-->
+    <resultMap id="voTemplateMap" type="com.iyin.sign.system.entity.SignSysTemplate" >
+        <id column="id" property="id" />
+        <result column="temp_name" property="tempName" />
+        <result column="temp_purpose" property="tempPurpose" />
+        <result column="temp_status" property="tempStatus" />
+        <result column="temp_html" property="tempHtml" />
+        <result column="temp_type" property="tempType" />
+        <result column="relation_id" property="relationId" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+    
+    <select id="getTemplateById" resultMap="voTemplateMap" parameterType="com.iyin.sign.system.dto.req.SignSysTemplateDTO">
+        select <include refid="Base_Column_List"/>  FROM  sign_sys_template s
+        WHERE 1=1 and s.is_deleted=0 and temp_status=0
+        <if test="tempName != null" >
+            and temp_name = #{tempName}
+        </if>
+        <if test="id != null" >
+            and id = #{id}
+        </if>
+    </select>
+
+</mapper>

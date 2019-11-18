@@ -1,0 +1,8 @@
+1.mac 值获取方式
+获取部署的服务器mac地址写入lic文件，格式为表达式(单个mac,多个逗号分隔)值：MD5Util.getStringMD5(MD5Util.getStringMD5("本机mac地址")+"AnYinKeJi").toUpperCase()
+2.localFilePath.signKey
+QXBwbGljYXRpb25JZD1BbllpbktlSmkmTm9uY2U9MTE1NjU2MjAtZDkzNS00YzU1LWExMzctMDE0NTVjY2RiMjA2JlNlY3JldElkPTlCNDktNEUyQS01RjQ0QjQmVGltZXN0YW1wPTE1NjYzNTE0NzQ1OTQ
+3.localFilePath.userMac 部署的服务器mac地址
+
+4.lic文件在云签后台管理系统中生成，具体咨询产品
+

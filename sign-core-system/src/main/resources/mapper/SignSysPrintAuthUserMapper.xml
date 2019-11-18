@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iyin.sign.system.mapper.SignSysPrintAuthUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.iyin.sign.system.entity.SignSysPrintAuthUser">
+        <id column="id" property="id" />
+        <result column="file_code" property="fileCode" />
+        <result column="user_id" property="userId" />
+        <result column="is_foggy" property="isFoggy" />
+        <result column="is_grey" property="isGrey" />
+        <result column="print_num" property="printNum" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="gmt_modified" property="gmtModified" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, file_code, user_id, is_foggy, is_grey, print_num, gmt_create, gmt_modified,create_user,update_user
+    </sql>
+
+    <resultMap id="SignSysPrintAuthUserRespVO" type="com.iyin.sign.system.vo.resp.SignSysPrintAuthUserRespVO">
+        <id column="id" property="userId" />
+        <result column="user_nick_name" property="userNickName" />
+    </resultMap>
+
+    <select id="getPrintAuthList" resultMap="SignSysPrintAuthUserRespVO" parameterType="string">
+        SELECT u.id,u.`user_nick_name` FROM `sign_sys_user_info` u WHERE u.`id` IN (
+SELECT s.`user_id` FROM `sign_sys_print_auth_user` s WHERE s.`file_code`=#{fileCode} GROUP BY s.`user_id`
+)
+    </select>
+
+</mapper>

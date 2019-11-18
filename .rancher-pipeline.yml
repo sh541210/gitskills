@@ -1,2 +1,16 @@
+stages:
+- name: maven3.6
+  steps:
+  - runScriptConfig:
+      image: prokop7/maven3.6.1-jdk8
+      shellScript: |-
+        cd  sign-core-system/
+        clean compile install -Dmaven.test.skip=true
+    env:
+      Root POM: sign-core-system/pom.xml
+  when:
+    branch:
+      include:
+      - master
 timeout: 60
 notification: {}

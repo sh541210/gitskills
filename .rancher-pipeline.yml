@@ -4,5 +4,8 @@ stages:
   - runScriptConfig:
       image: java:8
       shellScript: ifconfig
+  - runScriptConfig:
+      image: java:8
+      shellScript: pwd
 timeout: 60
 notification: {}

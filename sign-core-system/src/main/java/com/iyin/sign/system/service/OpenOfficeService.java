@@ -1,6 +1,6 @@
 package com.iyin.sign.system.service;
 
-import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
+
 
 /**
  * @ClassName: OpenOfficeService
@@ -12,7 +12,7 @@ import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
  * @Version: 1.0.0
  */
 public interface OpenOfficeService {
-	OpenOfficeConnection getConnection();
-	OpenOfficeConnection getConnection(String host, int port);
-	void releaseConnection(OpenOfficeConnection conn);
+//	OpenOfficeConnection getConnection();
+//	OpenOfficeConnection getConnection(String host, int port);
+//	void releaseConnection(OpenOfficeConnection conn);
 }

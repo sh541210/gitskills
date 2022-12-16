@@ -56,7 +56,7 @@
         <jackson-annotations.version>2.9.6</jackson-annotations.version>
         <commons-httpclient.version>3.1</commons-httpclient.version>
         <commons-io.version>2.6</commons-io.version>
-        <itextpdf.version>5.5.13.1</itextpdf.version>
+        <itextpdf.version>5.5.13.3</itextpdf.version>
         <pdfbox.version>2.0.7</pdfbox.version>
         <openoffice.version>4.1.2</openoffice.version>
         <jodconverter.version>2.2.2</jodconverter.version>
@@ -123,26 +123,26 @@
                 <version>${commons-beanutils.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.qiniu</groupId>
-                <artifactId>qiniu-java-sdk</artifactId>
-                <version>${qiniu.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-                <version>${okhttp3.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.qiniu</groupId>-->
+<!--                <artifactId>qiniu-java-sdk</artifactId>-->
+<!--                <version>${qiniu.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>com.squareup.okhttp3</groupId>-->
+<!--                <artifactId>okhttp</artifactId>-->
+<!--                <version>${okhttp3.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.qiniu</groupId>
-                <artifactId>happy-dns-java</artifactId>
-                <version>${qiniu-happy-dns.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.qiniu</groupId>-->
+<!--                <artifactId>happy-dns-java</artifactId>-->
+<!--                <version>${qiniu-happy-dns.version}</version>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>commons-lang</groupId>
@@ -162,39 +162,39 @@
                 <version>${jsqlparser.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.github.1991wangliang</groupId>
-                <artifactId>lorne_core</artifactId>
-                <version>${lorne-core.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.codingapi</groupId>
-                <artifactId>transaction-springcloud</artifactId>
-                <version>${lcn.last.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.codingapi</groupId>
-                <artifactId>tx-plugins-db</artifactId>
-                <version>${lcn.last.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.github.1991wangliang</groupId>-->
+<!--                <artifactId>lorne_core</artifactId>-->
+<!--                <version>${lorne-core.version}</version>-->
+<!--                <exclusions>-->
+<!--                    <exclusion>-->
+<!--                        <groupId>org.slf4j</groupId>-->
+<!--                        <artifactId>*</artifactId>-->
+<!--                    </exclusion>-->
+<!--                </exclusions>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>com.codingapi</groupId>-->
+<!--                <artifactId>transaction-springcloud</artifactId>-->
+<!--                <version>${lcn.last.version}</version>-->
+<!--                <exclusions>-->
+<!--                    <exclusion>-->
+<!--                        <groupId>org.slf4j</groupId>-->
+<!--                        <artifactId>*</artifactId>-->
+<!--                    </exclusion>-->
+<!--                </exclusions>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>com.codingapi</groupId>-->
+<!--                <artifactId>tx-plugins-db</artifactId>-->
+<!--                <version>${lcn.last.version}</version>-->
+<!--                <exclusions>-->
+<!--                    <exclusion>-->
+<!--                        <groupId>org.slf4j</groupId>-->
+<!--                        <artifactId>*</artifactId>-->
+<!--                    </exclusion>-->
+<!--                </exclusions>-->
+<!--            </dependency>-->
 
             <!--Lombok -->
             <dependency>
@@ -208,54 +208,54 @@
                 <artifactId>validation-api</artifactId>
                 <version>${validation-api.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.sun.jersey</groupId>
-                <artifactId>jersey-bundle</artifactId>
-                <version>${jersey-bundle.version}</version>
-            </dependency>
-            <!--增加axis2包支技 -->
-            <dependency>
-                <groupId>org.apache.axis2</groupId>
-                <artifactId>axis2-transport-http</artifactId>
-                <version>${axis2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.axis2</groupId>
-                <artifactId>axis2-transport-local</artifactId>
-                <version>${axis2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.axis2</groupId>
-                <artifactId>axis2-adb</artifactId>
-                <version>${axis2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>commons-logging</artifactId>
-                        <groupId>commons-logging</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>${netty.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.sun.jersey</groupId>-->
+<!--                <artifactId>jersey-bundle</artifactId>-->
+<!--                <version>${jersey-bundle.version}</version>-->
+<!--            </dependency>-->
+<!--            &lt;!&ndash;增加axis2包支技 &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.axis2</groupId>-->
+<!--                <artifactId>axis2-transport-http</artifactId>-->
+<!--                <version>${axis2.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.axis2</groupId>-->
+<!--                <artifactId>axis2-transport-local</artifactId>-->
+<!--                <version>${axis2.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.axis2</groupId>-->
+<!--                <artifactId>axis2-adb</artifactId>-->
+<!--                <version>${axis2.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.jacoco</groupId>-->
+<!--                <artifactId>jacoco-maven-plugin</artifactId>-->
+<!--                <version>${jacoco.version}</version>-->
+<!--                <exclusions>-->
+<!--                    <exclusion>-->
+<!--                        <artifactId>commons-logging</artifactId>-->
+<!--                        <groupId>commons-logging</groupId>-->
+<!--                    </exclusion>-->
+<!--                </exclusions>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>io.netty</groupId>-->
+<!--                <artifactId>netty-all</artifactId>-->
+<!--                <version>${netty.version}</version>-->
+<!--            </dependency>-->
 
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus-boot-starter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus</artifactId>
-                <version>${mybatis-plus-boot-starter.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.baomidou</groupId>-->
+<!--                <artifactId>mybatis-plus-boot-starter</artifactId>-->
+<!--                <version>${mybatis-plus-boot-starter.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>com.baomidou</groupId>-->
+<!--                <artifactId>mybatis-plus</artifactId>-->
+<!--                <version>${mybatis-plus-boot-starter.version}</version>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>io.github.openfeign.form</groupId>
@@ -277,33 +277,7 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson-annotations.version}</version>
             </dependency>
-            <!--jodconverter-->
-            <dependency>
-                <groupId>com.artofsolving</groupId>
-                <artifactId>jodconverter</artifactId>
-                <version>${jodconverter.version}</version>
-            </dependency>
-            <!--OpenOffice-->
-            <dependency>
-                <groupId>org.openoffice</groupId>
-                <artifactId>jurt</artifactId>
-                <version>${openoffice.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openoffice</groupId>
-                <artifactId>ridl</artifactId>
-                <version>${openoffice.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openoffice</groupId>
-                <artifactId>juh</artifactId>
-                <version>${openoffice.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openoffice</groupId>
-                <artifactId>unoil</artifactId>
-                <version>${openoffice.version}</version>
-            </dependency>
+
             <!-- Apache pdfBox -->
             <dependency>
                 <groupId>org.apache.pdfbox</groupId>
@@ -315,11 +289,11 @@
                 <artifactId>fontbox</artifactId>
                 <version>${pdfbox.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.pdfbox</groupId>
-                <artifactId>pdfbox-tools</artifactId>
-                <version>${pdfbox.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.apache.pdfbox</groupId>-->
+<!--                <artifactId>pdfbox-tools</artifactId>-->
+<!--                <version>${pdfbox.version}</version>-->
+<!--            </dependency>-->
             <!-- itextpdf -->
             <dependency>
                 <groupId>com.itextpdf</groupId>
@@ -349,11 +323,11 @@
                 <artifactId>httpclient</artifactId>
                 <version>${httpclient.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.netflix.feign</groupId>
-                <artifactId>feign-httpclient</artifactId>
-                <version>${feign-httpclient.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.netflix.feign</groupId>-->
+<!--                <artifactId>feign-httpclient</artifactId>-->
+<!--                <version>${feign-httpclient.version}</version>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>commons-httpclient</groupId>

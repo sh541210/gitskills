@@ -5,9 +5,11 @@
 
 package com.iyin.sign.system.util.picUtils.doc;
 
-import com.lowagie.text.ExceptionConverter;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.FontMapper;
+
+
+import com.itextpdf.awt.FontMapper;
+import com.itextpdf.text.ExceptionConverter;
+import com.itextpdf.text.pdf.BaseFont;
 
 import java.awt.*;
 

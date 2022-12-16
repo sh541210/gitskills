@@ -1,7 +1,6 @@
 package com.iyin.sign.system.service.impl;
 
-import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
-import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
+
 import com.iyin.sign.system.service.OpenOfficeService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,22 +28,22 @@ public class OpenOfficeServiceImpl implements OpenOfficeService {
 	private String host = "127.0.0.1";
 	private int port = 8100;
 
-	@Override
-	public OpenOfficeConnection getConnection() {
-        return getConnection(host, port);
-	}
-
-	@Override
-	public OpenOfficeConnection getConnection(String host, int port) {
-		log.info("host: {}:{}", host, port);
-        // connect to an OpenOffice.org instance running on port 8100
-        OpenOfficeConnection connection = new SocketOpenOfficeConnection(host, port);
-        return connection;
-	}
-
-	@Override
-	public void releaseConnection(OpenOfficeConnection conn) {
-			conn.disconnect();
-	}
+//	@Override
+//	public OpenOfficeConnection getConnection() {
+//        return getConnection(host, port);
+//	}
+//
+//	@Override
+//	public OpenOfficeConnection getConnection(String host, int port) {
+//		log.info("host: {}:{}", host, port);
+//        // connect to an OpenOffice.org instance running on port 8100
+//        OpenOfficeConnection connection = new SocketOpenOfficeConnection(host, port);
+//        return connection;
+//	}
+//
+//	@Override
+//	public void releaseConnection(OpenOfficeConnection conn) {
+//			conn.disconnect();
+//	}
 
 }
